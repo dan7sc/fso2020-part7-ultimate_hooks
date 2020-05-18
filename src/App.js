@@ -1,7 +1,5 @@
-  
 import React, { useState, useEffect } from 'react'
 import axios from 'axios'
-
 
 const useField = (type) => {
   const [value, setValue] = useState('')
@@ -20,10 +18,19 @@ const useField = (type) => {
 const useResource = (baseUrl) => {
   const [resources, setResources] = useState([])
 
-  // ...
+  useEffect(() => {
+    const request = axios.get(baseUrl)
+    request.then(response => {
+      return setResources(response.data)
+    })
+  }, [baseUrl])
 
   const create = (resource) => {
-    // ...
+    const request = axios.post(baseUrl, resource)
+    request.then(response => {
+      const newResources = resources.concat(response.data)
+      setResources(newResources)
+    })
   }
 
   const service = {
@@ -47,7 +54,7 @@ const App = () => {
     event.preventDefault()
     noteService.create({ content: content.value })
   }
- 
+
   const handlePersonSubmit = (event) => {
     event.preventDefault()
     personService.create({ name: name.value, number: number.value})
