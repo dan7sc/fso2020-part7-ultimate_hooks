@@ -8,9 +8,14 @@ const useField = (type) => {
     setValue(event.target.value)
   }
 
+  const onClick = () => {
+    setValue('')
+  }
+
   return {
     type,
     value,
+    onClick,
     onChange
   }
 }
@@ -53,11 +58,14 @@ const App = () => {
   const handleNoteSubmit = (event) => {
     event.preventDefault()
     noteService.create({ content: content.value })
+    content.onClick()
   }
 
   const handlePersonSubmit = (event) => {
     event.preventDefault()
     personService.create({ name: name.value, number: number.value})
+    name.onClick()
+    number.onClick()
   }
 
   return (
